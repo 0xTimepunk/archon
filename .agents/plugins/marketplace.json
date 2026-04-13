@@ -1,0 +1,20 @@
+{
+  "name": "archon-local",
+  "interface": {
+    "displayName": "Archon Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "archon-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/archon-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

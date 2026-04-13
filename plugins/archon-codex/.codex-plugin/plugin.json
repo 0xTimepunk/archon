@@ -1,0 +1,37 @@
+{
+  "name": "archon-codex",
+  "version": "1.0.0",
+  "description": "Spec-driven development workflows for Codex with guided interviews and adaptive multi-agent execution.",
+  "author": {
+    "name": "Archon"
+  },
+  "homepage": "https://github.com/timepunk/archon",
+  "repository": "https://github.com/timepunk/archon",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "spec-driven-development",
+    "agent-teams",
+    "planning",
+    "implementation"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Archon",
+    "shortDescription": "Plan features with interviews and execute them with adaptive agent teams.",
+    "longDescription": "Archon adds two Codex-native workflows: a spec interview that produces structured feature specs and a work workflow that assesses complexity, decomposes tasks, and runs solo or multi-agent execution tiers.",
+    "developerName": "Archon",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use Archon to create a spec for a new feature.",
+      "Use Archon to execute an approved technical spec.",
+      "Use Archon work mode with agent teams for this spec."
+    ],
+    "brandColor": "#1F6FEB"
+  }
+}

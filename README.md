@@ -1,21 +1,27 @@
 # Archon
 
-General-purpose spec-driven development plugin for [Claude Code](https://claude.ai/code). Create specs with AI interviews, execute them with adaptive agent teams.
+General-purpose spec-driven development plugin for Claude Code and ChatGPT Codex. Create specs with AI interviews, execute them with adaptive agent teams.
 
 ## What It Does
 
-**`/dev:spec`** — Plan features (80% of effort)
+**Claude: `/dev:spec`** — Plan features (80% of effort)
 - Interactive AI interview to gather requirements
 - Parallel research agents analyze your codebase, best practices, and framework docs
 - Generates structured spec for stakeholder approval
 
-**`/dev:work`** — Execute features (20% of effort)
+**Claude: `/dev:work`** — Execute features (20% of effort)
 - Reads your approved spec and assesses complexity
 - Selects team size: Solo, Lean (2 streams), or Full (3+ streams)
 - Creates tasks, spawns agent teammates, and orchestrates parallel execution
 - Compounds learnings for future reference
 
+**Codex: `archon:spec` skill** — Plan features with the same interview and research flow
+
+**Codex: `archon:work` skill** — Execute specs with the same adaptive tiering, including multi-agent work for Lean and Full tiers
+
 ## Installation
+
+### Claude Code
 
 ```bash
 git clone <repo-url> ~/work/archon
@@ -27,9 +33,35 @@ source ~/.zshrc  # or ~/.bashrc
 
 This adds a shell alias so Claude Code loads the plugin automatically.
 
+### ChatGPT Codex
+
+This repo now includes a Codex plugin at `plugins/archon-codex` and a local marketplace entry at `.agents/plugins/marketplace.json`.
+
+To install it into your Codex home as a local plugin:
+
+```bash
+chmod +x install-codex.sh uninstall-codex.sh
+./install-codex.sh
+```
+
+In Codex, install or enable the local plugin from this repository's marketplace, then invoke it by asking for the Archon workflows explicitly, for example:
+
+```text
+Use Archon to create a spec for user authentication.
+Use Archon to execute specs/user-authentication/technical-spec.md with agent teams.
+```
+
+To uninstall the home-local Codex plugin:
+
+```bash
+./uninstall-codex.sh
+```
+
 ## Usage
 
 ### Create a Spec
+
+#### Claude Code
 
 ```bash
 claude
@@ -46,10 +78,27 @@ With optional integrations:
 /dev:spec hero-section --figma https://figma.com/file/abc123/design?node-id=45:678
 ```
 
+#### ChatGPT Codex
+
+```text
+Use Archon to create a spec for user authentication.
+Use Archon to create a spec for user-auth --linear LINEAR-123.
+Use Archon to create a spec for hero-section with this Figma URL: https://figma.com/file/abc123/design?node-id=45:678
+```
+
 ### Execute a Spec
+
+#### Claude Code
 
 ```bash
 /dev:work specs/user-authentication/technical-spec.md
+```
+
+#### ChatGPT Codex
+
+```text
+Use Archon to execute specs/user-authentication/technical-spec.md.
+Use Archon work mode with agent teams for specs/user-authentication/technical-spec.md.
 ```
 
 The work command will:
@@ -74,13 +123,23 @@ Scoring factors: phase count, file count, package scope, and parallelizable stre
 
 You can always override the suggested tier.
 
+## Platform Mapping
+
+| Capability | Claude Code | ChatGPT Codex |
+|------------|-------------|---------------|
+| Spec entrypoint | `/dev:spec` command | `archon:spec` skill |
+| Work entrypoint | `/dev:work` command | `archon:work` skill |
+| Interview UX | AskUserQuestion | `request_user_input` |
+| Agent teams | Task/Team tools | `spawn_agent` + coordination file |
+| Plugin packaging | `.claude-plugin/plugin.json` | `.codex-plugin/plugin.json` + marketplace |
+
 ## Integrations
 
 | Integration | Setup | Used By |
 |-------------|-------|---------|
-| **Linear** | Auth via Linear MCP at `https://mcp.linear.app/mcp` | `/dev:spec --linear` |
-| **Figma** | Requires Dev/Full seat, enable MCP in Figma | `/dev:spec --figma` |
-| **compound-engineering** | Available via Task tool (no setup needed) | Both commands |
+| **Linear** | Auth via Linear MCP at `https://mcp.linear.app/mcp` | Claude `/dev:spec`, Codex `archon:spec` |
+| **Figma** | Requires Dev/Full seat, enable MCP in Figma | Claude `/dev:spec`, Codex `archon:spec` |
+| **compound-engineering / built-in skills** | Available in the agent environment | Both workflows |
 
 All integrations are optional. Commands gracefully degrade without them.
 

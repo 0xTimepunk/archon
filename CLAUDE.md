@@ -4,13 +4,14 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Repository Overview
 
-**Archon** is a general-purpose spec-driven development plugin for Claude Code. It provides:
+**Archon** is a general-purpose spec-driven development plugin repository for Claude Code and ChatGPT Codex. It provides:
 
 1. **`/dev:spec`** — AI interview + parallel research agents to create feature specifications
 2. **`/dev:work`** — Adaptive agent teams that execute specs (team size scales with complexity)
-3. **`dev:specifier`** — Auto-triggered skill for spec creation
+3. **`dev:specifier`** — Auto-triggered Claude skill for spec creation
+4. **`archon:spec` / `archon:work`** — Codex-native skills for the same planning and execution workflows
 
-This is a **plugin repository**, not application code. It defines commands, skills, and workflows that Claude Code uses to help engineers plan and build features.
+This is a **plugin repository**, not application code. It defines commands, skills, and workflows that Claude Code and ChatGPT Codex use to help engineers plan and build features.
 
 ---
 
@@ -27,6 +28,16 @@ archon/
 │   └── skills/                      # Auto-triggered skills
 │       └── specifier/
 │           └── SKILL.md             # Specifier skill
+├── plugins/archon-codex/            # Codex plugin
+│   ├── .codex-plugin/
+│   │   └── plugin.json              # Codex plugin manifest
+│   ├── .mcp.json                    # Optional MCP server config
+│   └── skills/
+│       ├── spec/
+│       │   └── SKILL.md             # Codex spec workflow
+│       └── work/
+│           └── SKILL.md             # Codex adaptive work workflow
+├── .agents/plugins/marketplace.json # Repo-local Codex marketplace entry
 │
 ├── CLAUDE.md                        # This file
 ├── README.md                        # User-facing docs
@@ -69,13 +80,13 @@ Plan (80%) → Work (20%) → Assess → Compound
 
 ### For Plugin Development
 
-Commands, skills, and agents live in `/plugins/dev/`. When creating or updating:
+Claude commands and skills live in `/plugins/dev/`. Codex plugin assets live in `/plugins/archon-codex/`. When creating or updating:
 
-1. **Commands**: `/plugins/dev/commands/{name}.md` with YAML frontmatter
-2. **Skills**: `/plugins/dev/skills/{name}/SKILL.md` with YAML frontmatter
-3. Keep commands under 600 lines, single responsibility
-4. Test with Claude Code before committing
-5. Update version in `/plugins/dev/.claude-plugin/plugin.json`
+1. **Claude Commands**: `/plugins/dev/commands/{name}.md` with YAML frontmatter
+2. **Skills**: `/plugins/dev/skills/{name}/SKILL.md` or `/plugins/archon-codex/skills/{name}/SKILL.md`
+3. Keep workflow files focused and single-responsibility
+4. Test the relevant host workflow before committing
+5. Update the relevant manifest version when behavior changes materially
 
 ### Command Frontmatter Format
 
